@@ -65,7 +65,7 @@ $(function(){
         $('.right').on('touchmove','.del',function(e){
             var newmove=e.originalEvent.changedTouches[0].pageX;
             var x=newmove-move;
-            if(x>280){
+            if(x>240){
                 $(this).addClass('move').delay(500).queue(function(){
                     $(this).remove().dequeue();
                     todolist.splice($(this).index(),1);
