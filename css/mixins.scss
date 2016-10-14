@@ -1,0 +1,66 @@
+@mixin border-radius($w,$h){
+  width:$w;
+  height:$h;
+  @content;
+};
+@mixin positiona(){
+  position:absolute;
+  left:0;
+  top:0;
+  @content;
+}
+@mixin fangxing(){
+  position:absolute;
+  top:0;
+  left:0;
+  bottom:0;
+  right:0;
+  margin:auto;
+  @content;
+}
+%juzhong{
+  position:absolute;
+  top:0;
+  left:0;
+  bottom:0;
+  right:0;
+  margin:auto;
+}
+@mixin square($size){
+  width:$size;
+  height:$size;
+  @content;
+}
+@mixin box($w,$h){
+  width:$w;
+  height:$h;
+  @content;
+}
+@mixin shadow(){
+  box-shadow:10px 10px 10px red,20px 20px 1px yellow;
+}
+@mixin onm($m){
+  @media screen and (max-width:$m){
+    @content;
+  }
+}
+@mixin ons($s){
+  @media screen and (max-width:$s){
+    @content;
+  }
+}
+@mixin ond($d){
+  @media screen and (min-width:$d){
+    @content;
+  }
+}
+@mixin useRem($design-size){
+  $device-size-list:768px,$design-size,480px,414px,375px,360px, 320px;
+  @each $v in $device-size-list{
+    @media screen and(max-width:#{$v}){
+      html{
+        font-size:100px*$v/$design-size;
+      }
+    }
+  }
+}
