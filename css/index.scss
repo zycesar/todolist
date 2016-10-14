@@ -1,4 +1,4 @@
-body,ul,li{
+body,ul,li,input{
   margin:0;
   padding:0;
   list-style: none;
@@ -55,16 +55,20 @@ html{
     height:auto;
     width:100%;
     overflow:hidden;
-    $backlist:(1:#93ecff,2:#e0e0e0,3:#fcffa3,4:#bdffa6,5:#ffc4fe,6:#bdffa6,7:#ffc0c0,8:#93ecff,9:#e0e0e0,10:#fcffa3,11:#bdffa6,12:#ffc4fe,13:#bdffa6,14:#ffc0c0,15:#93ecff,16:#e0e0e0,17:#fcffa3,18:#bdffa6,19:#ffc4fe,20:#bdffa6,21:#ffc0c0);
-    $colorlist:(1:#3ba2b8,2:#878787,3:#b5a223,4:#5ca86a,5:#c17ac0,6:#5ca86a,7:#b26b6b,8:#3ba2b8,9:#878787,10:#b5a223,11:#5ca86a,12:#c17ac0,13:#5ca86a,14:#b26b6b,15:#3ba2b8,16:#878787,17:#b5a223,18:#5ca86a,19:#c17ac0,20:#5ca86a,21:#b26b6b);
-    @each $v in map_keys($backlist){
-      li:nth-child(#{$v}) {
-        background: map_get($backlist, $v);
+    $backlist:#93ecff,#e0e0e0,#fcffa3,#bdffa6,#ffc4fe,#bdffa6,#ffc0c0,
+    #93ecff,#e0e0e0,#fcffa3,#bdffa6,#ffc4fe,#bdffa6,#ffc0c0,
+    #93ecff,#e0e0e0,#fcffa3,#bdffa6,#ffc4fe,#bdffa6,#ffc0c0;
+    $colorlist:#3ba2b8,#878787,#b5a223,#5ca86a,#c17ac0,#5ca86a,#b26b6b,
+    #3ba2b8,#878787,#b5a223,#5ca86a,#c17ac0,#5ca86a,#b26b6b,
+    #3ba2b8,#878787,#b5a223,#5ca86a,#c17ac0,#5ca86a,#b26b6b;
+    @for $i from 1 through length($backlist){
+      li:nth-child(#{$i}) {
+        background:nth($backlist,$i);
       }
     }
-    @each $v in map_keys($colorlist){
-      li:nth-child(#{$v}){
-        color:map_get($colorlist,$v);
+    @for $j from 1 through length($colorlist){
+      li:nth-child(#{$j}),li:nth-child(#{$j}) input{
+        color:nth($colorlist,$j);
       }
     }
     li{
@@ -77,18 +81,19 @@ html{
       line-height:1.1rem;
       font-size:0.3rem;
       font-weight:bold;
-      color:#3ba2b8;
-      background:#93ecff;
+      //color:#3ba2b8;
+      //background:#93ecff;
       position:relative;
       left:0.75rem;
       text-align: center;
+      input{
+        font-weight:bold;
+        font-family:"微软雅黑";
+      }
       &.move{
         animation:move 0.5s ease both;
       }
       @keyframes move {
-        0%{
-          transform: translate3d(0,0,0);
-        }
         100%{
           transform: translate3d(120%,0,0);
         }
@@ -97,6 +102,7 @@ html{
         display:inline-block;
         text-align: left;
         width:4.6rem;
+        min-height:0.3rem;
         height:auto;
         //position:absolute;
         //left:1.15rem;
@@ -123,7 +129,17 @@ html{
           top:0.5rem;
         }
       }
-
+      &.newli{
+        animation:slodin 0.5s ease both;
+      }
+      @keyframes slodin {
+          0%{
+            transform: translate3d(-100%,0,0);
+          }
+        100%{
+          transform: translate3d(0,0,0);
+        }
+      }
     }
 
 
