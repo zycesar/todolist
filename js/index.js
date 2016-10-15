@@ -7,35 +7,54 @@
  * */
 $(function () {
     var todolist = [
-        // {title:'向右滑动已移除便签',radius:0,isdel:0},
-        // {title:'向左滑动启动更多选项',radius:0,isdel:0},
+        // {title:'向右滑动已完成便签',radius:0,isdel:0},
+        // {title:'再次向右滑动彻底移除便签',radius:0,isdel:0},
+        // {title:'向左滑动取消移除',radius:0,isdel:0},
         // {title:'点击“+”添加',radius:0,isdel:0},
         // {title:'欢迎！',radius:0,isdel:0},
     ];
+    var index=1;
     if (localStorage.data) {
         todolist = JSON.parse(localStorage.data);
         render();
     } else {
         localStorage.data = JSON.stringify(todolist);
     }
+
     function add() {
-        todolist.push({
-            title: '',
-            radius: 0,
-            isdel: 0
-        });
-        localStorage.data = JSON.stringify(todolist);
         // render()
-        var newli = $('<li><span></span></li>');
-        newli.addClass('newli').appendTo('.right').delay(500).queue(function(){
+        index++;
+        if(index>7){index=1}
+        var newli = $('<li><span><input type="text" class="newput"></span></li>');
+        newli.addClass('back'+index).addClass('color'+index).addClass('newli').appendTo('.right').delay(500).queue(function(){
             $(this).removeClass('newli').dequeue()
+        })
+        var beinput=newli.find('span input');
+        beinput.focus();
+        beinput.blur(function(){
+            newli.find('span').text($(this).val());
+            if($(this).val().length>0){
+                todolist.push({
+                    title: $(this).val(),
+                    radius: 0,
+                    isdel: 0
+                });
+                localStorage.data = JSON.stringify(todolist);
+            }else{
+                 newli.addClass('init').delay(500).queue(function(){
+                     $(this).removeClass('init').remove().dequeue();
+                 });
+            }
         })
     }
 
     function render() {
+
         $('.right').empty();
         $.each(todolist, function (i, v) {
-            $('<li><span>' + v.title + '</span></li>').addClass(function () {
+            index++;
+            if(index>7){index=1}
+            $('<li><span>' + v.title + '</span></li>').addClass('color'+index).addClass('back'+index).addClass(function () {
                 if (todolist[i].radius) {
                     return 'del';
                 }
@@ -108,6 +127,7 @@ $(function () {
             $(this).remove();
             todolist[lis.closest('li').index()].title = input.val();
             localStorage.data = JSON.stringify(todolist);
+
         })
         input.on('keydown', function (e) {
             if (e.keyCode == '13') {

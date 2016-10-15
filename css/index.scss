@@ -2,6 +2,8 @@ body,ul,li,input{
   margin:0;
   padding:0;
   list-style: none;
+  border:0;
+  outline:none;
 }
 @import "mixins.scss";
 html{
@@ -50,25 +52,22 @@ html{
       left:0.1rem;
       bottom:0.3rem;
     }
+
   }
   .right{
     height:auto;
     width:100%;
     overflow:hidden;
-    $backlist:#93ecff,#e0e0e0,#fcffa3,#bdffa6,#ffc4fe,#bdffa6,#ffc0c0,
-    #93ecff,#e0e0e0,#fcffa3,#bdffa6,#ffc4fe,#bdffa6,#ffc0c0,
-    #93ecff,#e0e0e0,#fcffa3,#bdffa6,#ffc4fe,#bdffa6,#ffc0c0;
-    $colorlist:#3ba2b8,#878787,#b5a223,#5ca86a,#c17ac0,#5ca86a,#b26b6b,
-    #3ba2b8,#878787,#b5a223,#5ca86a,#c17ac0,#5ca86a,#b26b6b,
-    #3ba2b8,#878787,#b5a223,#5ca86a,#c17ac0,#5ca86a,#b26b6b;
-    @for $i from 1 through length($backlist){
-      li:nth-child(#{$i}) {
-        background:nth($backlist,$i);
+    $backlist:(back1:#93ecff,back2:#e0e0e0,back3:#fcffa3,back4:#bdffa6,back5:#ffc4fe,back6:#bdffa6,back7:#ffc0c0);
+    $colorlist:(color1:#3ba2b8,color2:#878787,color3:#b5a223,color4:#5ca86a,color5:#c17ac0,color6:#5ca86a,color7:#b26b6b);
+    @each $back in map-keys($backlist){
+      li.#{$back}{
+        background:map_get($backlist,$back);
       }
     }
-    @for $j from 1 through length($colorlist){
-      li:nth-child(#{$j}),li:nth-child(#{$j}) input{
-        color:nth($colorlist,$j);
+    @each $col in map_keys($colorlist){
+      li.#{$col},li.#{$col} input{
+        color:map_get($colorlist,$col)
       }
     }
     li{
@@ -98,12 +97,23 @@ html{
           transform: translate3d(120%,0,0);
         }
       }
+      &.init{
+        animation:init 0.5s ease both;
+      }
+      @keyframes init {
+        100%{
+          transform: translate3d(120%,0,0);
+        }
+      }
       span{
         display:inline-block;
         text-align: left;
         width:4.6rem;
         min-height:0.3rem;
         height:auto;
+        line-height:0.5rem;
+        padding-top:0.16rem;
+        letter-spacing: inherit;
         //position:absolute;
         //left:1.15rem;
         input{
